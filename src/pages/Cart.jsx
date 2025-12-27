@@ -125,10 +125,10 @@ const Cart = () => {
                 </div>
                 <div className="flex gap-4 pt-4">
                   <Link to="/menu" className="flex-1">
-                    <button className="bg-transparent text-primary px-4 py-2 rounded-2xl hover:bg-emerald-600 hover:text-white transition duration-300 hover:scale-105 w-full cursor-pointer ">{t("cart.continueShopping")}</button>
+                    <button className="bg-transparent text-primary px-4 py-2 rounded-2xl hover:bg-emerald-600 hover:text-white transition duration-300 hover:scale-105 w-full cursor-pointer text-sm md:text-lg ">{t("cart.continueShopping")}</button>
                   </Link>
                   <Link to="/checkout" className="flex-1">
-                    <button className="bg-primary text-white px-4 py-2 rounded-2xl hover:bg-primary/80 transition duration-300 hover:scale-105 w-full cursor-pointer ">{t("cart.checkout")}</button>
+                    <button className="bg-primary text-white px-4 py-2 rounded-2xl hover:bg-primary/80 transition duration-300 hover:scale-105 w-full cursor-pointer text-sm md:text-lg ">{t("cart.checkout")}</button>
                   </Link>
                 </div>
               </div>

@@ -184,7 +184,7 @@ const OrderTracking = ({ api }) => {
                 >
                     <Card>
                         <CardContent className="pt-6">
-                            <form onSubmit={handleTrack} className="flex items-center gap-4">
+                            <form onSubmit={handleTrack} className="flex md:flex-row flex-col items-center gap-4">
                                 <div className="flex-1">
                                     <Label htmlFor="trackingNumber" className="sr-only">
                                         {t("tracking.trackingNumber")}
@@ -198,18 +198,21 @@ const OrderTracking = ({ api }) => {
                                         className="text-lg rounded-sm py-2"
                                     />
                                 </div>
-                                <Button type="submit" size="lg" disabled={loading}>
-                                    {loading ? t("loading") : t("tracking.trackButton")}
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => setIsSoundEnabled(!isSoundEnabled)}
-                                    className="text-muted-foreground mr-2"
-                                    title={isSoundEnabled ? "Mute Notifications" : "Enable Notifications"}
-                                >
-                                    {isSoundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
-                                </Button>
+                                <div className="flex">
+                                    <Button type="submit" size="lg" disabled={loading}>
+                                        {loading ? t("loading") : t("tracking.trackButton")}
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => setIsSoundEnabled(!isSoundEnabled)}
+                                        className="text-muted-foreground mr-2"
+                                        title={isSoundEnabled ? "Mute Notifications" : "Enable Notifications"}
+                                    >
+                                        {isSoundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
+                                    </Button>
+                                </div>
+
 
                             </form>
                         </CardContent>

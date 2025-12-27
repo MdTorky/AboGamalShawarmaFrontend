@@ -50,17 +50,17 @@ const Home = () => {
               initial={{ opacity: 0, x: language === "ar" ? 50 : -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-            // className={language === "ar" ? "" : ""}
+              className="text-center md:text-start"
             >
-              <h1 className=" text-5xl md:text-6xl lg:text-8xl font-bold mb-6 text-balance">
+              <h1 className=" text-6xl lg:text-8xl font-bold mb-6 text-balance">
                 <span className="text-primary">{t("hero.title")}</span>
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground mb-1 font-semibold">{t("hero.subtitle")}</p>
               <p className="text-lg text-muted-foreground mb-8 text-pretty">{t("hero.description")}</p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex justify-center md:justify-start">
                 <Link to="/menu">
                   <button
-                    className="relative bg-primary text-white font-medium text-[17px] px-4 py-[0.35em] pl-5 h-[2.8em] rounded-[0.9em] flex items-center overflow-hidden cursor-pointer shadow-[inset_0_0_1.6em_-0.6em_#652400] group"
+                    className="relative bg-primary text-white font-medium text-[17px] px-4 py-[0.35em] pl-5 h-[2.8em] rounded-[0.9em] flex items-center overflow-hidden cursor-pointer shadow-[inset_0_0_1.6em_-0.6em_#652400] group m-auto"
                   >
                     <span className={`${language === "ar" ? "ml-10" : "mr-10"} text-xl`}> {t("hero.orderNow")}</span>
                     <div
@@ -95,13 +95,13 @@ const Home = () => {
       </section>
 
 
-      <div className="max-w-7xl mx-auto mb-10">
+      <div className="px-4 max-w-7xl mx-auto mb-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-5"
         >
           <h1 className="text-4xl md:text-6xl font-bold text-primary">{t("contact.title")}</h1>
           <p className="text-2xl text-muted-foreground">{t("contact.getInTouch")}</p>

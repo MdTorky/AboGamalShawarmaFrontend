@@ -16,8 +16,6 @@ function App() {
   // const api = "http://localhost:4000";
   const api = import.meta.env.VITE_APP_API_KEY;
 
-
-
   const { t, language } = useLanguage()
 
   return (
