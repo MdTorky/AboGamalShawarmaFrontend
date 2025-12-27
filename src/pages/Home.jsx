@@ -46,13 +46,13 @@ const Home = () => {
         </div>
 
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2  gap-12 items-center">
             {/* Text Content */}
             <motion.div
               initial={{ opacity: 0, x: language === "ar" ? 50 : -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center md:text-start"
+              className="text-center md:text-start order-2 lg:order-1"
             >
               <h1 className=" text-6xl lg:text-8xl font-bold mb-6 text-balance">
                 <span className="text-primary">{t("hero.title")}</span>
@@ -81,12 +81,12 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className={language === "ar" ? "lg:order-1" : ""}
+              className={`order-1 lg:order-2 ${language === "ar" ? "lg:order-1" : ""}`}
             >
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-primary to-accent rounded-full blur-2xl opacity-20" />
                 <img
-                  src={Shawarma}
+                  src='/Logo.png'
                   alt="Shawarma"
                   className="relative rounded-2xl w-full"
                 />
