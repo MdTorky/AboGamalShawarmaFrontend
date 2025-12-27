@@ -185,7 +185,7 @@ const OrderTracking = ({ api }) => {
                     <Card>
                         <CardContent className="pt-6">
                             <form onSubmit={handleTrack} className="flex md:flex-row flex-col items-center gap-4">
-                                <div className="flex-1">
+                                <div className="flex-1 w-full">
                                     <Label htmlFor="trackingNumber" className="sr-only">
                                         {t("tracking.trackingNumber")}
 
@@ -198,8 +198,8 @@ const OrderTracking = ({ api }) => {
                                         className="text-lg rounded-sm py-2"
                                     />
                                 </div>
-                                <div className="flex">
-                                    <Button type="submit" size="lg" disabled={loading}>
+                                <div className="flex items-center gap-2 w-full md:w-auto">
+                                    <Button variant="track" type="submit" size="lg" disabled={loading}>
                                         {loading ? t("loading") : t("tracking.trackButton")}
                                     </Button>
                                     <Button
