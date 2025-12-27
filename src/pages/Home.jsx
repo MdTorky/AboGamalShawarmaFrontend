@@ -14,7 +14,8 @@ const Home = () => {
     {
       icon: "ion:phone-portrait",
       title: t("contact.phone"),
-      value: "+60 12-345 6789",
+      link: "https://wa.me/60183110773",
+      title2: t("contact.messageMe"),
     },
     {
       icon: "fluent:mail-copy-20-filled",
@@ -25,6 +26,7 @@ const Home = () => {
       icon: "ic:baseline-whatsapp",
       title: t("contact.whatsappGroup"),
       link: "https://chat.whatsapp.com/KyM9UYPKHguFnaCio0127b",
+      title2: t("contact.joinWhatsapp"),
     },
     {
       icon: "uil:clock-three",
@@ -128,7 +130,7 @@ const Home = () => {
                     <h3 className="font-bold text-lg mb-1">{info.title}</h3>
                     {info.link ? (
                       <a href={info.link} target="_blank" rel="noopener noreferrer" className="text-primary">
-                        {t("contact.joinWhatsapp")}
+                        {info.title2}
                       </a>
                     ) : (
                       <p className="text-muted-foreground">{info.value}</p>

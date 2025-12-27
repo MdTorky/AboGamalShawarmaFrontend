@@ -10,7 +10,7 @@
       "track": "Track"
     },
     "hero": {
-      "title": "Abo Gamal Shawrama",
+      "title": "Shawrama Fahman",
       "subtitle": "Authentic Flavor",
       "description": "Experience the best shawarma in town with our secret blend of spices and premium ingredients",
       "orderNow": "Order Now",
@@ -118,7 +118,7 @@
     "about": {
       "title": "About Us",
       "story": "Our Story",
-      "storyText": "ABO GAMAL Shawrama has been serving authentic Middle Eastern cuisine since 2010. Our passion for quality and traditional recipes has made us a favorite among shawarma lovers.",
+      "storyText": "Shawrama Fahman has been serving authentic Middle Eastern cuisine since 2010. Our passion for quality and traditional recipes has made us a favorite among shawarma lovers.",
       "quality": "Quality Ingredients",
       "qualityText": "We use only the freshest ingredients and premium meats, marinated with our secret blend of spices for the perfect taste.",
       "tradition": "Traditional Methods",
@@ -133,7 +133,8 @@
       "hours": "Opening Hours",
       "everyday": "Every Day: 12:00 PM - 6:00 PM",
       "whatsappGroup": "Whatsapp Group",
-      "joinWhatsapp": "Click me to Join our Whatsapp group"
+      "joinWhatsapp": "Click me to Join our Whatsapp group",
+      "messageMe": "Click to Message me on Whatsapp"
     },
     "loading": "Loading..."
   },
@@ -148,7 +149,7 @@
       "track": "تتبع الطلب"
     },
     "hero": {
-      "title": "شاورما أبو جمال",
+      "title": "شاورما فهمان",
       "subtitle": "نكهة شرق أوسطية أصيلة",
       "description": "استمتع بأفضل شاورما في المدينة مع مزيجنا السري من التوابل والمكونات الممتازة",
       "orderNow": "اطلب الآن",
@@ -256,7 +257,7 @@
     "about": {
       "title": "من نحن",
       "story": "قصتنا",
-      "storyText": "أبو جمال شاورما يقدم المأكولات الشرق أوسطية الأصيلة منذ عام 2010. شغفنا بالجودة والوصفات التقليدية جعلنا المفضلة لدى عشاق الشاورما.",
+      "storyText": "شاورما فهمان يقدم المأكولات الشرق أوسطية الأصيلة منذ عام 2010. شغفنا بالجودة والوصفات التقليدية جعلنا المفضلة لدى عشاق الشاورما.",
       "quality": "مكونات عالية الجودة",
       "qualityText": "نستخدم فقط أفضل المكونات واللحوم الممتازة، متبلة بمزيجنا السري من التوابل للحصول على الطعم المثالي.",
       "tradition": "طرق تقليدية",
@@ -271,7 +272,8 @@
       "hours": "ساعات العمل",
       "everyday": "كل يوم: 12:00 ظهرا - 6:00 مساءً",
       "whatsappGroup": "مجموعة واتساب",
-      "joinWhatsapp": "انضم إلى مجموعة الواتساب الخاصة بنا"
+      "joinWhatsapp": "انضم إلى مجموعة الواتساب الخاصة بنا",
+      "messageMe": "انقر للرسالة على الواتساب"
     },
     "loading": "جاري التحميل..."
   }

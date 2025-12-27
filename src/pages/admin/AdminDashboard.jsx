@@ -315,7 +315,7 @@ const AdminDashboard = ({ api }) => {
                         )}
                       </div>
                       <span className={`${order.paymentMethod === "payLater" ? "text-red-500" : "text-emerald-500"} font-bold`}> {t(`checkout.${order.paymentMethod}`)}</span>
-                      <div className="flex justify-between items-center">
+                      <div className="flex md:flex-row flex-col justify-between items-center">
 
 
                         <div className="flex gap-1 items-center font-bold text-primary mb-2 text-lg">
@@ -331,10 +331,10 @@ const AdminDashboard = ({ api }) => {
 
                         {updateLoading ?
                           <LoadingSpinner /> : (
-                            <div className="flex gap-2">
+                            <div className="flex gap-2  w-full justify-end">
                               {order.orderStatus === "pending" && (
                                 <Button size="lg"
-                                  variant="constructive"
+                                  variant="markReady"
                                   onClick={() => updateOrderStatus(order._id, "ready")}>
                                   {t("admin.markReady")}
                                 </Button>
@@ -342,7 +342,7 @@ const AdminDashboard = ({ api }) => {
                               {order.orderStatus === "ready" && (
                                 <Button
                                   size="lg"
-                                  variant="outline"
+                                  variant="markDelivered"
                                   onClick={() => updateOrderStatus(order._id, "delivered")}
                                 >
                                   {t("admin.markDelivered")}

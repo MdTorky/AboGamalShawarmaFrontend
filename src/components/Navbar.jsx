@@ -36,7 +36,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16 ">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-primary">{language === "ar" ? "أبو جمال شاورما" : "Abo Gamal"}</div>
+            {/* <div className="text-2xl font-bold text-primary">{language === "ar" ? "شاورما فهمان" : "Shawrama Fahman"}</div> */}
+            <img src="/Logo.png" className="w-30" />
           </Link>
 
           {/* Desktop Navigation */}
