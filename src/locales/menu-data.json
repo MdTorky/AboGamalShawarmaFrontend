@@ -1,0 +1,38 @@
+[
+  {
+    "_id": 1,
+    "name": "Small Chicken Shawarma",
+    "nameAr": "شاورما دجاج صغيرة",
+    "description": "Tender marinated chicken with fresh vegetables, garlic sauce, and pickles wrapped in warm pita bread",
+    "descriptionAr": "دجاج متبل طري مع خضار طازجة، صوص الثوم والمخللات ملفوفة بخبز البيتا الدافئ",
+    "price": 7,
+    "image": "Small.png"
+  },
+  {
+    "_id": 2,
+    "name": "Large Chicken Shawarma",
+    "nameAr": "شاورما دجاج كبيرة",
+    "description": "Premium beef strips with tahini sauce, tomatoes, onions, and parsley in fresh saj bread",
+    "descriptionAr": "شرائح لحم فاخرة مع صوص الطحينة، الطماطم، البصل والبقدونس في خبز الصاج الطازج",
+    "price": 12,
+    "image": "Large.png"
+  },
+  {
+    "_id": 3,
+    "name": "Shawarma Plate",
+    "nameAr": "صحن شاورما",
+    "description": "Perfect combination of chicken and beef with special house sauce, vegetables, and crispy fries",
+    "descriptionAr": "مزيج مثالي من الدجاج واللحم مع صوص البيت الخاص، الخضار والبطاطس المقلية المقرمشة",
+    "price": 15,
+    "image": "Plate.png"
+  },
+  {
+    "_id": 4,
+    "name": "Family Shawarma Pack",
+    "nameAr": "صحن شاورما للعائلة",
+    "description": "Crispy falafel balls with hummus, fresh salad, tahini, and Mediterranean spices",
+    "descriptionAr": "كرات الفلافل المقرمشة مع الحمص، السلطة الطازجة، الطحينة والبهارات المتوسطية",
+    "price": 20,
+    "image": "Family.png"
+  }
+]
