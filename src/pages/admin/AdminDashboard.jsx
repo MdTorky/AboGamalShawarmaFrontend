@@ -19,7 +19,7 @@ const AdminDashboard = ({ api }) => {
   const [loading, setLoading] = useState(true)
   const [isOpen, setIsOpen] = useState()
   const [updateLoading, setUpdateLoading] = useState(false)
-  const [isSoundEnabled, setIsSoundEnabled] = useState(true)
+  const [isSoundEnabled, setIsSoundEnabled] = useState(false)
   const [highlightId, setHighlightId] = useState(null)
   useEffect(() => {
     const token = localStorage.getItem("adminToken")

@@ -19,7 +19,7 @@ const OrderTracking = ({ api }) => {
     const [order, setOrder] = useState(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
-    const [isSoundEnabled, setIsSoundEnabled] = useState(true)
+    const [isSoundEnabled, setIsSoundEnabled] = useState(false)
 
 
     useEffect(() => {

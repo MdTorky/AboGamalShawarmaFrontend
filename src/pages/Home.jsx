@@ -46,7 +46,7 @@ const Home = () => {
         </div>
 
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2  gap-12 items-center">
+          <div className="grid lg:grid-cols-2 md:gap-12 items-center">
             {/* Text Content */}
             <motion.div
               initial={{ opacity: 0, x: language === "ar" ? 50 : -50 }}

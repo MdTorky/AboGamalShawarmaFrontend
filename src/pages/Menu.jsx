@@ -116,7 +116,7 @@ const Menu = ({ api }) => {
           />
         </div>
 
-        <h2 className="capitalize font-semibold text-lg mt-10 text-gray-900">
+        <h2 className="capitalize font-semibold text-lg mt-10 text-gray-900 m-auto w-60 text-center">
           {language === "en" ? item.name : item.nameAr}
         </h2>
 

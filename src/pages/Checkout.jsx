@@ -11,8 +11,7 @@ import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group"
 import axios from "axios"
-import QR1 from "../assets/img/QR 1.png"
-import QR2 from "../assets/img/Qr2.png"
+import QR1 from "../assets/img/QR.png"
 
 const Checkout = ({ api }) => {
   const { t, language } = useLanguage()
@@ -178,8 +177,8 @@ const Checkout = ({ api }) => {
                   {formData.paymentMethod === "payNow" && (
                     <div className="bg-muted p-4 rounded-lg text-center">
                       <div className="flex justify-center gap-4 mb-2">
-                        <img src={QR1} alt="DuitNow QR" className="mx-auto mb-2 w-35 h-35" />
-                        <img src={QR2} alt="DuitNow QR" className="mx-auto mb-2 w-30 h-30" />
+                        <img src={QR1} alt="DuitNow QR" className="mx-auto mb-2 w-80 h-80" />
+                        {/* <img src={QR2} alt="DuitNow QR" className="mx-auto mb-2 w-30 h-30" /> */}
                       </div>
                       <p className="text-sm text-muted-foreground">
                         {t("checkout.scanToPay")}
