@@ -202,7 +202,7 @@ const OrderTracking = ({ api }) => {
                                     <Button variant="track" type="submit" size="lg" disabled={loading}>
                                         {loading ? t("loading") : t("tracking.trackButton")}
                                     </Button>
-                                    <Button
+                                    {/* <Button
                                         variant="ghost"
                                         size="icon"
                                         onClick={() => setIsSoundEnabled(!isSoundEnabled)}
@@ -210,7 +210,7 @@ const OrderTracking = ({ api }) => {
                                         title={isSoundEnabled ? "Mute Notifications" : "Enable Notifications"}
                                     >
                                         {isSoundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
-                                    </Button>
+                                    </Button> */}
                                 </div>
 
 

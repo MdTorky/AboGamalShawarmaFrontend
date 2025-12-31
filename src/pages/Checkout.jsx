@@ -1,6 +1,4 @@
-"use client"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useNavigate } from "react-router-dom"
 import { useLanguage } from "../context/LanguageContext"
@@ -10,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group"
+import { Users, ChefHat } from "lucide-react"
 import axios from "axios"
 import QR1 from "../assets/img/QR.png"
 
@@ -18,6 +17,7 @@ const Checkout = ({ api }) => {
   const { cart, getCartTotal, clearCart } = useCart()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  const [pendingCount, setPendingCount] = useState(0)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,6 +26,22 @@ const Checkout = ({ api }) => {
     extraRequests: "",
     paymentMethod: "cash",
   })
+
+
+  // useEffect(() => {
+  //   const fetchQueueStatus = async () => {
+  //     try {
+  //       // We use the analytics endpoint because it already calculates 'pendingOrders'
+  //       const response = await axios.get(`${api}/api/orders/analytics`)
+  //       if (response.data.success) {
+  //         setPendingCount(response.data.pendingOrders)
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching queue status:", error)
+  //     }
+  //   }
+  //   fetchQueueStatus()
+  // }, [api])
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -79,6 +95,30 @@ const Checkout = ({ api }) => {
         >
           <h1 className="text-4xl md:text-5xl font-bold text-primary">{t("checkout.title")}</h1>
         </motion.div>
+        {/* <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 flex items-center justify-center gap-3 shadow-sm"
+        >
+          <div className="bg-blue-100 dark:bg-blue-800 p-2 rounded-full">
+            <ChefHat className="h-6 w-6 text-blue-600 dark:text-blue-300" />
+          </div>
+          <div className="text-center md:text-left">
+            <p className="text-sm text-muted-foreground font-medium">
+              {language === "ar" ? "حالة المطعم الحالية" : "Current Restaurant Status"}
+            </p>
+            <p className="text-lg font-bold text-blue-700 dark:text-blue-400">
+              {pendingCount === 0
+                ? (language === "ar" ? "لا يوجد طلبات انتظار، اطلب الآن!" : "No queue right now. Order fast!")
+                : (language === "ar"
+                  ? `يوجد ${pendingCount} طلبات قيد التحضير حالياً`
+                  : `There are ${pendingCount} orders being prepared currently`
+                )
+              }
+            </p>
+          </div>
+        </motion.div> */}
 
         <div className="grid lg:grid-cols-2 gap-8">
           <motion.div
