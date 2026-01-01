@@ -9,15 +9,20 @@ import shawarma from '../assets/Shawarma.png'
 import { Lock } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Icon } from "@iconify-icon/react"
+import LoadingSpinner from "../components/LoadingSpinner"
+
 
 const Menu = ({ api }) => {
   const { t, language } = useLanguage()
   const { addToCart } = useCart()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [shopStatus, setShopStatus] = useState({ isOpen: true, closedMessage: {}, openingHours: "", openingHoursArabic: "" })
 
   useEffect(() => {
     const fetchData = async () => {
+      // Ensure loader is showing if this runs again
+      setLoading(true)
+
       try {
         const statusResponse = await axios.get(`${api}/api/shop/status`)
         if (statusResponse.data.success) {
@@ -25,6 +30,9 @@ const Menu = ({ api }) => {
         }
       } catch (error) {
         console.error("Error fetching data:", error)
+      } finally {
+        // FIX: Move setLoading(false) here so the loader stops whether the request succeeds or fails
+        setLoading(false)
       }
     }
     fetchData()
@@ -52,7 +60,6 @@ const Menu = ({ api }) => {
       }
 
       if (imgRef.current) {
-        // 1. Get Start Position (The Card Image)
         const rect = imgRef.current.getBoundingClientRect()
         setStartPos({
           top: rect.top,
@@ -60,7 +67,6 @@ const Menu = ({ api }) => {
           width: rect.width
         })
 
-        // 2. Get Target Position (The Navbar Cart Icon)
         const cartElement = document.getElementById("cart-icon-container")
         if (cartElement) {
           const cartRect = cartElement.getBoundingClientRect()
@@ -162,11 +168,10 @@ const Menu = ({ api }) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl text-muted-foreground">{t("loading")}</div>
+        <LoadingSpinner />
       </div>
     )
   }
-
 
   if (!shopStatus.isOpen) {
     return (
@@ -185,8 +190,9 @@ const Menu = ({ api }) => {
           {shopStatus.openingHours && (
             <div className="bg-muted p-4 rounded-lg">
               <p className="font-semibold">{t("shop.openingHours")}</p>
-              <p className="text-muted-foreground">{language ===
-                "en" ? shopStatus.openingHours : shopStatus.openingHoursArabic}</p>
+              <p className="text-muted-foreground">
+                {language === "en" ? shopStatus.openingHours : shopStatus.openingHoursArabic}
+              </p>
             </div>
           )}
         </motion.div>
@@ -195,6 +201,7 @@ const Menu = ({ api }) => {
   }
 
   return (
+
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
