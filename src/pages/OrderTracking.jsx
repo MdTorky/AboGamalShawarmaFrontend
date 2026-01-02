@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { Package, Clock, CheckCircle, Volume2, VolumeX } from "lucide-react"
+import { Package, Clock, CheckCircle, Volume2, VolumeX, AlertCircle } from "lucide-react"
 import { useLanguage } from "../context/LanguageContext"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
@@ -246,85 +246,106 @@ const OrderTracking = ({ api }) => {
                             <Card>
                                 <CardContent className="pt-6">
                                     <div className="flex flex-col items-center text-center">
-                                        <motion.div
-                                            key={order.orderStatus} // Re-animate when status changes
-                                            initial={{ scale: 0.8, opacity: 0 }}
-                                            animate={{ scale: 1, opacity: 1 }}
-                                            transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                                        >
-                                            {getStatusIcon(order.orderStatus)}
-                                        </motion.div>
-                                        <h2 className="text-2xl font-bold mt-4 mb-2">{getStatusText(order.orderStatus)}</h2>
-                                        <p className="text-muted-foreground mb-4">
-                                            {t("tracking.trackingNumber")}:{" "}
-                                            <span className="font-bold text-primary">{order.trackingNumber}</span>
-                                        </p>
+                                        {/* Cancelled/Rejected Status handling */}
+                                        {order.orderStatus === 'cancelled' ? (
+                                            <motion.div
+                                                initial={{ scale: 0.8, opacity: 0 }}
+                                                animate={{ scale: 1, opacity: 1 }}
+                                                className="text-red-600"
+                                            >
+                                                <AlertCircle className="w-16 h-16 mb-4 mx-auto" />
+                                                <h2 className="text-3xl font-bold mb-2">{t("tracking.rejected")}</h2>
+                                                <p className="text-muted-foreground mb-4">
+                                                    {t("tracking.contactSupport")}
+                                                </p>
+                                                <p className="text-muted-foreground mb-4">
+                                                    {t("tracking.trackingNumber")}:{" "}
+                                                    <span className="font-bold text-primary">{order.trackingNumber}</span>
+                                                </p>
+                                            </motion.div>
+                                        ) : (
+                                            <>
+                                                <motion.div
+                                                    key={order.orderStatus} // Re-animate when status changes
+                                                    initial={{ scale: 0.8, opacity: 0 }}
+                                                    animate={{ scale: 1, opacity: 1 }}
+                                                    transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                                                >
+                                                    {getStatusIcon(order.orderStatus)}
+                                                </motion.div>
+                                                <h2 className="text-2xl font-bold mt-4 mb-2">{getStatusText(order.orderStatus)}</h2>
+                                                <p className="text-muted-foreground mb-4">
+                                                    {t("tracking.trackingNumber")}:{" "}
+                                                    <span className="font-bold text-primary">{order.trackingNumber}</span>
+                                                </p>
 
-                                        {/* Progress Bar */}
-                                        <div className="w-full max-w-md mt-6 relative">
-                                            <div className="flex justify-between items-center mb-2 relative z-10">
+                                                {/* Progress Bar */}
+                                                <div className="w-full max-w-md mt-6 relative">
+                                                    <div className="flex justify-between items-center mb-2 relative z-10">
 
-                                                {/* Step 1: Pending */}
-                                                <div className="flex flex-col items-center">
-                                                    <motion.div
-                                                        variants={iconPulseVariant}
-                                                        animate={order.orderStatus === 'pending' ? 'active' : 'inactive'}
-                                                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500 ${checkStatus(order.orderStatus, 'pending') ? "bg-primary text-primary-foreground" : "bg-muted"
-                                                            }`}
-                                                    >
-                                                        <Clock className="w-4 h-4" />
-                                                    </motion.div>
-                                                    <p className="text-xs mt-1">{language === "ar" ? "قيد التحضير" : "Preparing"}</p>
+                                                        {/* Step 1: Pending */}
+                                                        <div className="flex flex-col items-center">
+                                                            <motion.div
+                                                                variants={iconPulseVariant}
+                                                                animate={order.orderStatus === 'pending' ? 'active' : 'inactive'}
+                                                                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500 ${checkStatus(order.orderStatus, 'pending') ? "bg-primary text-primary-foreground" : "bg-muted"
+                                                                    }`}
+                                                            >
+                                                                <Clock className="w-4 h-4" />
+                                                            </motion.div>
+                                                            <p className="text-xs mt-1">{language === "ar" ? "قيد التحضير" : "Preparing"}</p>
+                                                        </div>
+
+                                                        {/* Line 1: Pending -> Ready */}
+                                                        <div className="flex-1 mx-2 h-1 bg-muted rounded-full overflow-hidden flex justify-start">
+                                                            <motion.div
+                                                                className="h-full bg-primary"
+                                                                variants={lineVariant}
+                                                                initial="inactive"
+                                                                animate={getLineStatus(order.orderStatus, 'line1')}
+                                                            />
+                                                        </div>
+
+                                                        {/* Step 2: Ready */}
+                                                        <div className="flex flex-col items-center">
+                                                            <motion.div
+                                                                variants={iconPulseVariant}
+                                                                animate={order.orderStatus === 'ready' ? 'active' : 'inactive'}
+                                                                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500 ${checkStatus(order.orderStatus, 'ready') ? "bg-primary text-primary-foreground" : "bg-muted"
+                                                                    }`}
+                                                            >
+                                                                <Package className="w-4 h-4" />
+                                                            </motion.div>
+                                                            <p className="text-xs mt-1">{language === "ar" ? "جاهز" : "Ready"}</p>
+                                                        </div>
+
+                                                        {/* Line 2: Ready -> Delivered */}
+                                                        <div className="flex-1 mx-2 h-1 bg-muted rounded-full overflow-hidden flex justify-start">
+                                                            <motion.div
+                                                                className="h-full bg-primary"
+                                                                variants={lineVariant}
+                                                                initial="inactive"
+                                                                animate={getLineStatus(order.orderStatus, 'line2')}
+                                                            />
+                                                        </div>
+
+                                                        {/* Step 3: Delivered */}
+                                                        <div className="flex flex-col items-center">
+                                                            <motion.div
+                                                                variants={iconPulseVariant}
+                                                                animate={order.orderStatus === 'delivered' ? 'active' : 'inactive'}
+                                                                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500 ${checkStatus(order.orderStatus, 'delivered') ? "bg-primary text-primary-foreground" : "bg-muted"
+                                                                    }`}
+                                                            >
+                                                                <CheckCircle className="w-4 h-4" />
+                                                            </motion.div>
+                                                            <p className="text-xs mt-1">{language === "ar" ? "تم التسليم" : "Delivered"}</p>
+                                                        </div>
+
+                                                    </div>
                                                 </div>
-
-                                                {/* Line 1: Pending -> Ready */}
-                                                <div className="flex-1 mx-2 h-1 bg-muted rounded-full overflow-hidden flex justify-start">
-                                                    <motion.div
-                                                        className="h-full bg-primary"
-                                                        variants={lineVariant}
-                                                        initial="inactive"
-                                                        animate={getLineStatus(order.orderStatus, 'line1')}
-                                                    />
-                                                </div>
-
-                                                {/* Step 2: Ready */}
-                                                <div className="flex flex-col items-center">
-                                                    <motion.div
-                                                        variants={iconPulseVariant}
-                                                        animate={order.orderStatus === 'ready' ? 'active' : 'inactive'}
-                                                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500 ${checkStatus(order.orderStatus, 'ready') ? "bg-primary text-primary-foreground" : "bg-muted"
-                                                            }`}
-                                                    >
-                                                        <Package className="w-4 h-4" />
-                                                    </motion.div>
-                                                    <p className="text-xs mt-1">{language === "ar" ? "جاهز" : "Ready"}</p>
-                                                </div>
-
-                                                {/* Line 2: Ready -> Delivered */}
-                                                <div className="flex-1 mx-2 h-1 bg-muted rounded-full overflow-hidden flex justify-start">
-                                                    <motion.div
-                                                        className="h-full bg-primary"
-                                                        variants={lineVariant}
-                                                        initial="inactive"
-                                                        animate={getLineStatus(order.orderStatus, 'line2')}
-                                                    />
-                                                </div>
-
-                                                {/* Step 3: Delivered */}
-                                                <div className="flex flex-col items-center">
-                                                    <motion.div
-                                                        variants={iconPulseVariant}
-                                                        animate={order.orderStatus === 'delivered' ? 'active' : 'inactive'}
-                                                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-500 ${checkStatus(order.orderStatus, 'delivered') ? "bg-primary text-primary-foreground" : "bg-muted"
-                                                            }`}
-                                                    >
-                                                        <CheckCircle className="w-4 h-4" />
-                                                    </motion.div>
-                                                    <p className="text-xs mt-1">{language === "ar" ? "تم التسليم" : "Delivered"}</p>
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                            </>
+                                        )}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -364,7 +385,7 @@ const OrderTracking = ({ api }) => {
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4 pt-4 border-t">
-                                        <div>
+                                        {/* <div>
                                             <p className="text-sm text-muted-foreground">{t("checkout.paymentMethod")}</p>
                                             <p className="font-semibold">
                                                 {order.paymentMethod === "payLater"
@@ -372,16 +393,26 @@ const OrderTracking = ({ api }) => {
                                                     : t("checkout.payNow")}
                                             </p>
 
-                                        </div>
+                                        </div> */}
                                         <div>
                                             <p className="text-sm text-muted-foreground">{t("tracking.orderedAt")}</p>
-                                            <p className="font-semibold">
+                                            {/* <p className="font-semibold">
                                                 {new Date(order.createdAt).toLocaleDateString("en-GB", {
                                                     day: "2-digit",
                                                     month: "2-digit",
                                                     year: "2-digit",
                                                     hour: "numeric",
                                                     minute: "numeric",
+                                                    hour12: true
+                                                })}
+                                            </p> */}
+                                            <p className="text-sm text-muted-foreground font-mono mt-1 font-bold">
+                                                {new Date(order.createdAt).toLocaleString('en-GB', {
+                                                    day: '2-digit',
+                                                    month: '2-digit',
+                                                    year: "2-digit",
+                                                    hour: '2-digit',
+                                                    minute: '2-digit',
                                                     hour12: true
                                                 })}
                                             </p>

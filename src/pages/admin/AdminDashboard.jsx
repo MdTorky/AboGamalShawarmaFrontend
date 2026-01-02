@@ -31,6 +31,7 @@ const AdminDashboard = ({ api }) => {
     fetchData()
   }, [])
 
+
   useEffect(() => {
     const fetchStatus = async () => {
       try {
@@ -259,101 +260,142 @@ const AdminDashboard = ({ api }) => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {Array.isArray(orders) && orders.length === 0 ? (
+              {Array.isArray(orders) && orders.filter(o => o.orderStatus !== 'cancelled').length === 0 ? (
                 <p className="text-center text-muted-foreground py-8">{t("admin.noActiveOrders")}</p>
               ) : (
-                Array.isArray(orders) && orders.map((order) => (
-                  <Card key={order._id}>
-                    <CardContent className="p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <p className="text-sm text-muted-foreground">
-                            {t("admin.trackingNumber2")} {order.trackingNumber}
-                          </p>
-                          {order._id === highlightId && (
-                            <Badge className="bg-green-500 animate-pulse text-white">NEW!</Badge>
-                          )}
+                Array.isArray(orders) && orders
+                  .filter(order => order.orderStatus !== 'cancelled')
+                  .map((order) => (
+                    <Card key={order._id}>
+                      <CardContent className="p-6">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <p className="text-sm text-muted-foreground">
+                              {t("admin.trackingNumber2")} {order.trackingNumber}
+                            </p>
+                            <p className="text-sm text-muted-foreground font-mono mt-1">
+                              {new Date(order.createdAt).toLocaleString('en-GB', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true
+                              })}
+                            </p>
+                            {order._id === highlightId && (
+                              <Badge className="bg-green-500 animate-pulse text-white">NEW!</Badge>
+                            )}
 
-                          <h3 className="font-bold text-lg text-primary">{order.customerName}</h3>
+                            <h3 className="font-bold text-lg text-primary">{order.customerName}</h3>
 
-                        </div>
-                        <Badge
-                          variant={
-                            order.orderStatus === "pending"
-                              ? "secondary"
-                              : order.orderStatus === "ready"
-                                ? "constructive"
-                                : "outline"
-                          }
-                        >
-                          {t(`admin.${order.orderStatus}`)}
-                        </Badge>
-                      </div>
-                      <div className="mb-4">
-                        <h4 className="font-semibold mb-2">{t("admin.items")}:</h4>
-                        <div>
-                          <div className="space-y-2">
-                            {order.items.map((item, index) => (
-                              <div key={index} className="flex justify-between p-2 bg-muted rounded-lg">
-                                <span>
-                                  {language === "ar" ? item.nameAr : item.name}  <span className="font-bold text-primary">x {item.quantity}</span>
-                                </span>
-                                <span className="font-semibold">
-                                  {t("menu.rm")} {(item.price * item.quantity).toFixed(2)}
-                                </span>
-                              </div>
-                            ))}
                           </div>
+                          <Badge
+                            variant={
+                              order.orderStatus === "pending"
+                                ? "secondary"
+                                : order.orderStatus === "ready"
+                                  ? "constructive"
+                                  : "outline"
+                            }
+                          >
+                            {t(`admin.${order.orderStatus}`)}
+                          </Badge>
                         </div>
 
-
-                        {order.extraRequests && (
-                          <div className="mt-4">
-                            {t("admin.extraRequests")}
-                            <p className="bg-input p-2 px-5 text-muted-foreground  rounded-lg"> {order.extraRequests}</p>
+                        {/* Receipt Image */}
+                        {order.receiptImage && (
+                          <div className="mb-4">
+                            <p className="text-sm font-semibold mb-1">{t("admin.receipt")}</p>
+                            <img
+                              src={order.receiptImage}
+                              alt="Payment Receipt"
+                              className="w-full max-w-sm h-auto rounded-lg border border-gray-200 object-contain max-h-[400px]"
+                            />
                           </div>
                         )}
-                      </div>
-                      <span className={`${order.paymentMethod === "payLater" ? "text-red-500" : "text-emerald-500"} font-bold`}> {t(`checkout.${order.paymentMethod}`)}</span>
-                      <div className="flex md:flex-row flex-col justify-between items-center">
 
-
-                        <div className="flex gap-1 items-center font-bold text-primary mb-2 text-lg">
-                          <div className="text-black">
-                            {t("admin.total")}:
+                        <div className="mb-4">
+                          <h4 className="font-semibold mb-2">{t("admin.items")}:</h4>
+                          <div>
+                            <div className="space-y-2">
+                              {order.items.map((item, index) => (
+                                <div key={index} className="flex justify-between p-2 bg-muted rounded-lg">
+                                  <span>
+                                    {language === "ar" ? item.nameAr : item.name}
+                                  </span>
+                                  <span className="font-semibold">
+                                    <span className="font-bold text-primary">x {item.quantity}</span>
+                                  </span>
+                                  {/* <span className="font-semibold">
+                                    {t("menu.rm")} {(item.price * item.quantity).toFixed(2)}
+                                  </span> */}
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                          <div className={`${language === "ar" ? "order-2" : ""}`}>{t("menu.rm")}</div>
-                          <div className="font-extrabold">{order.totalAmount.toFixed(2)}
-                          </div>
-
-                        </div>
 
 
-                        {updateLoading ?
-                          <LoadingSpinner /> : (
-                            <div className="flex gap-2  w-full justify-end">
-                              {order.orderStatus === "pending" && (
-                                <Button size="lg"
-                                  variant="markReady"
-                                  onClick={() => updateOrderStatus(order._id, "ready")}>
-                                  {t("admin.markReady")}
-                                </Button>
-                              )}
-                              {order.orderStatus === "ready" && (
-                                <Button
-                                  size="lg"
-                                  variant="markDelivered"
-                                  onClick={() => updateOrderStatus(order._id, "delivered")}
-                                >
-                                  {t("admin.markDelivered")}
-                                </Button>
-                              )}
+                          {order.extraRequests && (
+                            <div className="mt-4">
+                              {t("admin.extraRequests")}
+                              <p className="bg-input p-2 px-5 text-muted-foreground  rounded-lg"> {order.extraRequests}</p>
                             </div>
                           )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
+                        </div>
+
+                        {/* Payment Method Removed as requested */}
+
+                        <div className="flex md:flex-row flex-col justify-between items-center">
+
+
+                          <div className="flex gap-1 items-center font-bold text-primary mb-2 text-lg">
+                            <div className="text-black">
+                              {t("admin.total")}:
+                            </div>
+                            <div className={`${language === "ar" ? "order-2" : ""}`}>{t("menu.rm")}</div>
+                            <div className="font-extrabold">{order.totalAmount.toFixed(2)}
+                            </div>
+
+                          </div>
+
+
+                          {updateLoading ?
+                            <LoadingSpinner /> : (
+                              <div className="flex gap-2  w-full justify-end">
+                                {order.orderStatus === "pending" && (
+                                  <>
+                                    <Button
+                                      size="lg"
+                                      variant="destructive"
+                                      onClick={() => {
+                                        if (window.confirm("Are you sure you want to reject/cancel this order?")) {
+                                          updateOrderStatus(order._id, "cancelled")
+                                        }
+                                      }}>
+                                      Reject
+                                    </Button>
+                                    <Button size="lg"
+                                      variant="markReady"
+                                      onClick={() => updateOrderStatus(order._id, "ready")}>
+                                      {t("admin.markReady")}
+                                    </Button>
+                                  </>
+                                )}
+                                {order.orderStatus === "ready" && (
+                                  <Button
+                                    size="lg"
+                                    variant="markDelivered"
+                                    onClick={() => updateOrderStatus(order._id, "delivered")}
+                                  >
+                                    {t("admin.markDelivered")}
+                                  </Button>
+                                )}
+                              </div>
+                            )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))
               )}
             </div>
           </CardContent>

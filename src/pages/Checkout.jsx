@@ -17,14 +17,15 @@ const Checkout = ({ api }) => {
   const { cart, getCartTotal, clearCart } = useCart()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const [pendingCount, setPendingCount] = useState(0)
+  const [receiptFile, setReceiptFile] = useState(null)
+
+  // Removed paymentMethod from initial state
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     whatsapp: "",
     extraRequests: "",
-    paymentMethod: "cash",
   })
 
 
@@ -47,29 +48,52 @@ const Checkout = ({ api }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        alert(t("checkout.fileTooLarge") || "File size must be less than 2MB")
+        e.target.value = null
+        setReceiptFile(null)
+        return
+      }
+      setReceiptFile(file)
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!receiptFile) {
+      alert(t("checkout.uploadReceiptRequired") || "Please upload the payment receipt")
+      return
+    }
+
     setLoading(true)
 
     try {
-      const orderData = {
-        customerName: formData.name,
-        email: formData.email,
-        phoneNumber: formData.phone,
-        whatsappNumber: formData.phone,
-        deliveryAddress: formData.address,
-        items: cart.map((item) => ({
-          name: item.name,
-          nameAr: item.nameAr,
-          price: item.price,
-          quantity: item.quantity,
-        })),
-        totalAmount: getCartTotal(),
-        extraRequests: formData.extraRequests,
-        paymentMethod: formData.paymentMethod,
-      }
+      const data = new FormData()
+      data.append("customerName", formData.name)
+      data.append("email", formData.email)
+      data.append("phoneNumber", formData.phone)
+      data.append("whatsappNumber", formData.phone) // Using phone as whatsapp for now based on UI
+      // data.append("deliveryAddress", formData.address) // Address not in form?
+      data.append("items", JSON.stringify(cart.map((item) => ({
+        name: item.name,
+        nameAr: item.nameAr,
+        price: item.price,
+        quantity: item.quantity,
+      }))))
+      data.append("totalAmount", getCartTotal())
+      data.append("extraRequests", formData.extraRequests)
+      data.append("paymentMethod", "duitnow")
+      data.append("receipt", receiptFile)
 
-      const response = await axios.post(`${api}/api/orders/create`, orderData)
+      const response = await axios.post(`${api}/api/orders/create`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
 
       if (response.data.success) {
         alert(t("checkout.orderSuccess"))
@@ -78,7 +102,8 @@ const Checkout = ({ api }) => {
       }
     } catch (error) {
       console.error("Error placing order:", error)
-      alert(t("checkout.orderError"))
+      const msg = error.response?.data?.message || t("checkout.orderError")
+      alert(msg)
     } finally {
       setLoading(false)
     }
@@ -95,30 +120,6 @@ const Checkout = ({ api }) => {
         >
           <h1 className="text-4xl md:text-5xl font-bold text-primary">{t("checkout.title")}</h1>
         </motion.div>
-        {/* <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 flex items-center justify-center gap-3 shadow-sm"
-        >
-          <div className="bg-blue-100 dark:bg-blue-800 p-2 rounded-full">
-            <ChefHat className="h-6 w-6 text-blue-600 dark:text-blue-300" />
-          </div>
-          <div className="text-center md:text-left">
-            <p className="text-sm text-muted-foreground font-medium">
-              {language === "ar" ? "حالة المطعم الحالية" : "Current Restaurant Status"}
-            </p>
-            <p className="text-lg font-bold text-blue-700 dark:text-blue-400">
-              {pendingCount === 0
-                ? (language === "ar" ? "لا يوجد طلبات انتظار، اطلب الآن!" : "No queue right now. Order fast!")
-                : (language === "ar"
-                  ? `يوجد ${pendingCount} طلبات قيد التحضير حالياً`
-                  : `There are ${pendingCount} orders being prepared currently`
-                )
-              }
-            </p>
-          </div>
-        </motion.div> */}
 
         <div className="grid lg:grid-cols-2 gap-8">
           <motion.div
@@ -155,18 +156,6 @@ const Checkout = ({ api }) => {
                       className="mt-1"
                     />
                   </div>
-                  {/* <div>
-                    <Label htmlFor="phone">{t("checkout.phone")}</Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                      className="mt-1"
-                    />
-                  </div> */}
                   <div>
                     <Label htmlFor="phone">{t("checkout.whatsapp")}</Label>
                     <Input
@@ -188,43 +177,30 @@ const Checkout = ({ api }) => {
                       value={formData.extraRequests}
                       onChange={handleChange}
                       className="mt-1"
-                    // rows={3}
                     />
                   </div>
 
-                  <div>
-                    <Label>{t("checkout.paymentMethod")}</Label>
-                    <RadioGroup
-                      value={formData.paymentMethod}
-                      onValueChange={(value) => setFormData({ ...formData, paymentMethod: value })}
-                      className="mt-2"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="payLater" id="payLater" />
-                        <Label htmlFor="payLater" className="font-normal">
-                          {t("checkout.payLater")}
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="payNow" id="payNow" />
-                        <Label htmlFor="payNow" className="font-normal">
-                          {t("checkout.payNow")}
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
+                  <div className="bg-muted p-4 rounded-lg text-center mt-4">
+                    <Label className="mb-2 block text-lg font-semibold">{t("checkout.scanToPay")}</Label>
+                    <div className="flex justify-center gap-4 mb-4">
+                      <img src={QR1} alt="DuitNow QR" className="mx-auto w-80 h-80 object-contain p-2 rounded-lg" />
+                    </div>
 
-                  {formData.paymentMethod === "payNow" && (
-                    <div className="bg-muted p-4 rounded-lg text-center">
-                      <div className="flex justify-center gap-4 mb-2">
-                        <img src={QR1} alt="DuitNow QR" className="mx-auto mb-2 w-80 h-80" />
-                        {/* <img src={QR2} alt="DuitNow QR" className="mx-auto mb-2 w-30 h-30" /> */}
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        {t("checkout.scanToPay")}
+                    <div className="text-start">
+                      <Label htmlFor="receipt" className="mb-2 block">{t("checkout.uploadReceipt")}</Label>
+                      <Input
+                        id="receipt"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        required
+                        className="w-full bg-background"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {t("checkout.maxSize")}
                       </p>
                     </div>
-                  )}
+                  </div>
 
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? t("loading") : t("checkout.placeOrder")}

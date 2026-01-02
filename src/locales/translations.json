@@ -56,7 +56,10 @@
       "orderSuccess": "Order placed successfully!",
       "orderError": "Failed to place order. Please try again.",
       "scanToPay": "Scan to pay",
-      "orderSummary": "Order Summary"
+      "orderSummary": "Order Summary",
+      "uploadReceipt": "Upload Payment Receipt",
+      "uploadReceiptRequired": "Please upload the payment receipt",
+      "maxSize": "Max size: 2MB. Format: JPG, PNG."
     },
     "tracking": {
       "title": "Track Your Order",
@@ -75,7 +78,9 @@
       "paymentPending": "Payment Pending",
       "paymentCompleted": "Payment Completed",
       "orderedAt": "Ordered At",
-      "notFound": "Order not found with this tracking number"
+      "notFound": "Order not found with this tracking number",
+      "rejected": "Order Rejected",
+      "contactSupport": "Please contact us for more info"
     },
     "admin": {
       "login": "Admin Login",
@@ -113,7 +118,8 @@
       "openShop": "Open Shop",
       "closeShop": "Close Shop",
       "shopOpened": "Shop is now Open",
-      "shopClosed": "Shop is now Closed"
+      "shopClosed": "Shop is now Closed",
+      "receipt": "Payment Receipt"
     },
     "about": {
       "title": "About Us",
@@ -195,7 +201,10 @@
       "orderSuccess": "تم تقديم الطلب بنجاح!",
       "orderError": "فشل تقديم الطلب. يرجى المحاولة مرة أخرى.",
       "scanToPay": "امسح للدفع",
-      "orderSummary": "ملخص الطلب"
+      "orderSummary": "ملخص الطلب",
+      "uploadReceipt": "تحميل إيصال الدفع",
+      "uploadReceiptRequired": "يرجى تحميل إيصال الدفع",
+      "maxSize": "الحد الأقصى للملف: 2 ميجابايت. تنسيق: JPG, PNG."
     },
     "tracking": {
       "title": "تتبع طلبك",
@@ -214,7 +223,9 @@
       "paymentPending": "الدفع معلق",
       "paymentCompleted": "تم الدفع",
       "orderedAt": "تاريخ الطلب",
-      "notFound": "لم يتم العثور على طلب بهذا الرقم"
+      "notFound": "لم يتم العثور على طلب بهذا الرقم",
+      "rejected": "الطلب رفض",
+      "contactSupport": "يرجى الاتصال بنا للحصول على معلومات إضافية"
     },
     "admin": {
       "login": "تسجيل دخول المسؤول",
@@ -252,7 +263,8 @@
       "openShop": "فتح المتجر",
       "closeShop": "إغلاق المتجر",
       "shopOpened": "المتجر مفتوح الآن",
-      "shopClosed": "المتجر مغلق الآن"
+      "shopClosed": "المتجر مغلق الآن",
+      "receipt": "إيصال الدفع"
     },
     "about": {
       "title": "من نحن",
