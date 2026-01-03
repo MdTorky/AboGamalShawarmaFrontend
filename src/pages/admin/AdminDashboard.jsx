@@ -81,6 +81,15 @@ const AdminDashboard = ({ api }) => {
     }
   }, [api, isSoundEnabled])
 
+  // Polling fallback: Refresh data every 1 minute
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData(false)
+    }, 60000) // 60000ms = 1 minute
+
+    return () => clearInterval(interval)
+  }, [])
+
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("adminToken")
