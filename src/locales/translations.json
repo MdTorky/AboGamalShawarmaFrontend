@@ -119,7 +119,8 @@
       "closeShop": "Close Shop",
       "shopOpened": "Shop is now Open",
       "shopClosed": "Shop is now Closed",
-      "receipt": "Payment Receipt"
+      "receipt": "Payment Receipt",
+      "reject": "Reject"
     },
     "about": {
       "title": "About Us",
@@ -264,7 +265,8 @@
       "closeShop": "إغلاق المتجر",
       "shopOpened": "المتجر مفتوح الآن",
       "shopClosed": "المتجر مغلق الآن",
-      "receipt": "إيصال الدفع"
+      "receipt": "إيصال الدفع",
+      "reject": "رفض"
     },
     "about": {
       "title": "من نحن",

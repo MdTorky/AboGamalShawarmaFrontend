@@ -381,7 +381,7 @@ const AdminDashboard = ({ api }) => {
                                           updateOrderStatus(order._id, "cancelled")
                                         }
                                       }}>
-                                      Reject
+                                      {t("admin.reject")}
                                     </Button>
                                     <Button size="lg"
                                       variant="markReady"
